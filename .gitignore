@@ -1,0 +1,23 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+plan.out
+crash.log
+*.tfvars
+!example.tfvars
+
+# Node / TypeScript
+node_modules/
+dist/
+
+# Secrets & local env
+.env
+.env.*
+*.pem
+*.key
+
+# OS / editor
+.DS_Store
+.vscode/
