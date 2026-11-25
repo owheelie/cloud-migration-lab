@@ -6,47 +6,9 @@ The legacy server stays in front for the whole migration. Each route is re-point
 
 ## Architecture
 
-```mermaid
-flowchart LR
-    user([Site visitors])
-    editor([Content editors])
+![Architecture diagram](docs/architecture.png)
 
-    subgraph legacy["Legacy host · EC2, configured by Ansible"]
-        nginx[nginx proxy]
-        oldapp[Legacy backend]
-    end
-
-    subgraph aws["AWS serverless · us-east-2"]
-        apigw[API Gateway]
-        contentFn["Content API<br/>Lambda · TypeScript"]
-        content[(S3 content bucket)]
-        landing[(S3 landing bucket)]
-        queue[SQS queue]
-        dlq[SQS dead-letter queue]
-        ingestFn["Ingest worker<br/>Lambda · TypeScript"]
-        bedrock[Amazon Bedrock]
-    end
-
-    subgraph delivery["Delivery"]
-        jenkins["Jenkins<br/>EC2, configured by Ansible"]
-        tf[Terraform]
-        state[(S3 state bucket)]
-    end
-
-    user --> nginx
-    nginx -- "routes not yet migrated" --> oldapp
-    nginx -- "migrated routes, e.g. /api/content" --> apigw
-    apigw --> contentFn --> content
-
-    editor --> landing
-    landing -- "object created" --> queue --> ingestFn
-    queue -. "after retries" .-> dlq
-    ingestFn --> content
-    ingestFn --> bedrock
-
-    jenkins --> tf --> state
-    tf -. provisions .-> aws
-```
+Generated from [`docs/architecture.py`](docs/architecture.py) with the [diagrams](https://diagrams.mingrammer.com) library.
 
 ## Components
 
@@ -77,6 +39,7 @@ flowchart LR
 | Path | Contents |
 |---|---|
 | `bootstrap/` | S3 bucket for Terraform state, applied once per account |
+| `docs/` | Architecture diagram and the code that generates it |
 
 ## Status
 
