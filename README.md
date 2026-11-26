@@ -34,17 +34,43 @@ Generated from [`docs/architecture.py`](docs/architecture.py) with the [diagrams
 - EC2 hosts are short-lived and destroyed after each session.
 - Single region.
 
+## Content API
+
+`GET /api/content/{slug}` returns a page stored at `content/{slug}.json` in the content bucket.
+
+```bash
+curl https://<api-id>.execute-api.us-east-2.amazonaws.com/api/content/about
+```
+
+| Status | When |
+|---|---|
+| 200 | Page found (cached for 60 seconds) |
+| 400 | Slug is not lowercase words separated by hyphens |
+| 404 | No page with that slug |
+| 500 | Storage error; details are logged, never returned |
+
+Run the tests and build locally:
+
+```bash
+cd services/content-api
+npm ci
+npm test
+npm run build   # also loads the bundle to catch runtime errors before deploy
+```
+
 ## Repository layout
 
 | Path | Contents |
 |---|---|
 | `bootstrap/` | S3 bucket for Terraform state, applied once per account |
 | `docs/` | Architecture diagram and the code that generates it |
+| `infra/content-api/` | Terraform for the content API: private bucket, least-privilege IAM role, Lambda, HTTP API |
+| `services/content-api/` | TypeScript Lambda handler, unit tests and build script |
 
 ## Status
 
 - [x] Terraform state backend
-- [ ] Content API
+- [x] Content API
 - [ ] Ingest pipeline
 - [ ] Legacy host and route-by-route cutover
 - [ ] Jenkins pipeline
