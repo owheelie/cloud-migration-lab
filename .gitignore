@@ -28,3 +28,6 @@ backend.hcl
 # Python virtual environment
 .venv/
 __pycache__/
+
+# Terraform build artifacts (Lambda zips)
+.build/

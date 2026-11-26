@@ -1,0 +1,6 @@
+{
+  "slug": "about",
+  "title": "About this project",
+  "body": "This page is served from Amazon S3 by a TypeScript Lambda function behind API Gateway. It is the first route moved off the legacy server as part of this migration.",
+  "updatedAt": "2026-11-26"
+}
