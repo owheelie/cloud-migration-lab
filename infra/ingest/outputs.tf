@@ -10,3 +10,7 @@ output "queue_url" {
 output "dlq_url" {
   value = aws_sqs_queue.ingest_dlq.url
 }
+
+output "worker_function_name" {
+  value = aws_lambda_function.worker.function_name
+}

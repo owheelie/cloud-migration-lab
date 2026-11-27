@@ -1,0 +1,6 @@
+{
+  "slug": "faq",
+  "title": "How content gets published",
+  "body": "Pages are uploaded to the landing bucket, validated by the ingest worker, and published to the content bucket, where the content API serves them.",
+  "updatedAt": "2026-11-27"
+}
