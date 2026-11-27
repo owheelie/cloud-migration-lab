@@ -1,0 +1,26 @@
+# Monthly dependency updates, grouped into one PR per ecosystem to keep noise low.
+# Security fixes are separate and arrive as soon as a vulnerability is published.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directories:
+      - "/services/content-api"
+      - "/services/ingest-worker"
+    schedule:
+      interval: monthly
+    groups:
+      npm-dependencies:
+        patterns: ["*"]
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: monthly
+
+  - package-ecosystem: terraform
+    directories:
+      - "/bootstrap"
+      - "/infra/content-api"
+      - "/infra/ingest"
+    schedule:
+      interval: monthly
